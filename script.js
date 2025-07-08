@@ -2,6 +2,8 @@ const myLibrary = [];
 const cardContainer = document.querySelector('.card-container');
 const submitForm = document.getElementById('submit-form');
 const addButton = document.getElementById('add-button');
+const body = document.querySelector('body');
+const inputContainer = document.querySelector('.input-container');
 
 function Book(title, author, description, publishDate, pages, read) {
 	
@@ -88,26 +90,28 @@ function submitBook() {
 addButton.addEventListener('click', function (e) {
     e.stopPropagation();
 
-    document.querySelector('.input-container').style.display = 'flex';
-    document.querySelector('body').style.cursor = 'pointer';
+    inputContainer.style.display = 'flex';
+    body.style.cursor = 'pointer';
+    cardContainer.style.filter = 'blur(6px)';
 });
 
 // hide input-container when clicking outside of the form and input-container
 document.addEventListener('click', function (e) {
     const inputContainer = document.querySelector('.input-container');
-    const form = document.getElementById('submit-form');
+    
     if (
         inputContainer.style.display === 'flex' &&
         !inputContainer.contains(e.target) &&
         !e.target.matches('#add-book')
     ) {
         inputContainer.style.display = 'none';
-        document.querySelector('body').style.cursor = 'default';
+        cardContainer.style.filter = 'blur(0px)';
+        body.style.cursor = 'default';
     }
 });
 
 // hide input-container by default on page load
-document.querySelector('.input-container').style.display = 'none';
+inputContainer.style.display = 'none';
 
 addBookToLibrary('Man and His Symbols', 'Carl G. Jung', "Man and His Symbols is a guide to understanding our dreams and interrogating the many facets of identity-our egos and our shadows, 'the dark side of our natures.'", 1964, 500);
 addBookToLibrary('Harry Potter', 'J.K. Rowling', "Harry Potter is a young wizard, the protagonist of J.K. Rowling's popular book series. He is described as having a thin face, knobbly knees, black, untidy hair, bright green eyes, and a lightning bolt-shaped scar on his forehead.", 1990, 365, true);
