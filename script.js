@@ -60,6 +60,8 @@ function addCard() {
 function submitBook() {
     const name = document.getElementById('name').value.trim();
     const author = document.getElementById('author').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const publishDate = Number(document.getElementById('publish-date').value);
     const pages = Number(document.getElementById('pages').value);
     const read = document.getElementById('read').checked;
 
@@ -77,8 +79,8 @@ function submitBook() {
         return;
     }
     
-    myLibrary.push(new Book(name, author, pages, read));
-    renderTable();
+    myLibrary.push(new Book(name, author, description, publishDate, pages, read));
+    addCard();
 }
 
 
