@@ -7,31 +7,22 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="reset.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
+        <img src="img/book.svg" alt="Book">
         <h1>Books</h1>
-        <div class="books">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Pages</th>
-                        <th>Read?</th>
-                    </tr>
-                </thead>
-
-                <tbody id="books-table-body">
-
-                </tbody>
-            </table>
-
-            <button id="add-book">New Book</button>
-        </div>
     </div>
+
+    <div id="add-button">+</div>
+
+    <div class="card-container"></div>
 
     <div class="input-container">
         <h1>Add a New Book</h1>

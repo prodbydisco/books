@@ -1,9 +1,9 @@
 const myLibrary = [];
-const tableBody = document.getElementById('books-table-body');
+const cardContainer = document.querySelector('.card-container');
 const submitForm = document.getElementById('submit-form');
-const addButton = document.getElementById('add-book');
+const addButton = document.getElementById('add-button');
 
-function Book(title, author, pages, read) {
+function Book(title, author, description, publishDate, pages, read) {
 	
     if (!new.target) {
         throw Error("You must use the 'new' operator to call the constructor");
@@ -13,7 +13,9 @@ function Book(title, author, pages, read) {
 	
 	this.title = title;
 	this.author = author;
+    this.description = description;
 	this.pages = pages;
+    this.publishDate = publishDate;
 	this.read = read;
 	
 	this.info = function() {
@@ -23,10 +25,10 @@ function Book(title, author, pages, read) {
 }
 
 
-function addBookToLibrary(title, author, pages, read) {
-    myLibrary.push(new Book(title, author, pages, read));
+function addBookToLibrary(title, author, description, publishDate, pages, read) {
+    myLibrary.push(new Book(title, author, description, publishDate, pages, read));
 
-    renderTable();
+    addCard();
 }
 
 function logBooks() {
@@ -35,20 +37,23 @@ function logBooks() {
     })
 }
 
-function renderTable() {
-    
-    tableBody.innerHTML = '';
+function addCard() {
+    cardContainer.innerHTML = ''; // clear previous cards
     
     myLibrary.forEach(book => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${book.id}</td>
-            <td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.pages}</td>
-            <td>${book.read ? 'Yes' : 'No'}</td>
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+            <div class="card-pair">
+                <h3 class="title">${book.title} - ${book.author}</h3>
+                <p class="description">${book.description}</p>
+            </div>
+            <div class="bottom-pair">
+                <p class="date">Published ${book.publishDate}</p>
+                <button class="delete-button">Delete</button>
+            </div>
         `;
-        tableBody.appendChild(row);
+        cardContainer.appendChild(card);
     });
 }
 
@@ -102,6 +107,7 @@ document.addEventListener('click', function (e) {
 // hide input-container by default on page load
 document.querySelector('.input-container').style.display = 'none';
 
-addBookToLibrary('Harry Potter', 'J.K. Rowling', 365, true);
-addBookToLibrary('The Hunger Games', 'Suzanne Collins', 420, false);
+addBookToLibrary('Man and His Symbols', 'Carl G. Jung', "Man and His Symbols is a guide to understanding our dreams and interrogating the many facets of identity-our egos and our shadows, 'the dark side of our natures.'", 1964, 500);
+addBookToLibrary('Harry Potter', 'J.K. Rowling', "Harry Potter is a young wizard, the protagonist of J.K. Rowling's popular book series. He is described as having a thin face, knobbly knees, black, untidy hair, bright green eyes, and a lightning bolt-shaped scar on his forehead.", 1990, 365, true);
+addBookToLibrary('The Hunger Games', 'Suzanne Collins', "The Capitol, forces each of its twelve districts to send two tributes (a boy and a girl) to participate in a televised fight to the death, known as the Hunger Games.", 2001, 420, false);
 logBooks();
