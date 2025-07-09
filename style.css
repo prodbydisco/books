@@ -84,11 +84,26 @@ body {
     font-size: 0.9rem;
 }
 
+.card-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card-icons img {
+    width: 36px;
+    height: auto;
+}
+
 .delete-button {
     background-color: red;
     color: white;
+    border: none;
     border-radius: 6px;
+    box-sizing: border-box;
     width: 68px;
+    height: 32px;
     align-self: flex-end;
     font-weight: bold;
 }

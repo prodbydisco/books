@@ -30,7 +30,7 @@ function Book(title, author, description, publishDate, pages, read) {
 function addBookToLibrary(title, author, description, publishDate, pages, read) {
     myLibrary.push(new Book(title, author, description, publishDate, pages, read));
 
-    addCard();
+    addCards();
 }
 
 function logBooks() {
@@ -39,12 +39,18 @@ function logBooks() {
     })
 }
 
-function addCard() {
+function addCards() {
     cardContainer.innerHTML = ''; // clear previous cards
-    
+
     myLibrary.forEach(book => {
         const card = document.createElement('div');
         card.classList.add('card');
+        card.setAttribute("id", book.id);
+
+        // set display for icons based on book.read
+        const eyeMinusDisplay = book.read ? 'inline' : 'none';
+        const eyePlusDisplay = book.read ? 'none' : 'inline';
+
         card.innerHTML = `
             <div class="card-pair">
                 <h3 class="title">${book.title} - ${book.author}</h3>
@@ -52,9 +58,39 @@ function addCard() {
             </div>
             <div class="bottom-pair">
                 <p class="date">Published ${book.publishDate}</p>
-                <button class="delete-button">Delete</button>
+                <div class="card-icons">
+                    <img src="img/eye-minus.svg" class="read-icon eye-minus" style="display:${eyeMinusDisplay}; cursor:pointer;">
+                    <img src="img/eye-plus.svg" class="read-icon eye-plus" style="display:${eyePlusDisplay}; cursor:pointer;">
+                    <button class="delete-button">Delete</button>
+                </div>
             </div>
         `;
+
+        // toggle read status when eye icon is clicked
+        const eyeMinus = card.querySelector('.eye-minus');
+        const eyePlus = card.querySelector('.eye-plus');
+
+        eyeMinus.addEventListener('click', function() {
+            book.read = false;
+            addCards();
+        });
+
+        eyePlus.addEventListener('click', function() {
+            book.read = true;
+            addCards();
+        });
+
+        // delete card using button
+        card.querySelector('.delete-button').addEventListener('click', function(e) {
+            const cardID = e.target.closest('.card').id;
+            const index = myLibrary.findIndex(book => book.id === cardID);
+
+            if (index !== -1) {
+                myLibrary.splice(index, 1);
+                addCards();
+            }
+        });
+
         cardContainer.appendChild(card);
     });
 }
@@ -82,7 +118,7 @@ function submitBook() {
     }
     
     myLibrary.push(new Book(name, author, description, publishDate, pages, read));
-    addCard();
+    addCards();
 }
 
 
@@ -98,7 +134,7 @@ addButton.addEventListener('click', function (e) {
 // hide input-container when clicking outside of the form and input-container
 document.addEventListener('click', function (e) {
     const inputContainer = document.querySelector('.input-container');
-    
+
     if (
         inputContainer.style.display === 'flex' &&
         !inputContainer.contains(e.target) &&
@@ -113,7 +149,7 @@ document.addEventListener('click', function (e) {
 // hide input-container by default on page load
 inputContainer.style.display = 'none';
 
-addBookToLibrary('Man and His Symbols', 'Carl G. Jung', "Man and His Symbols is a guide to understanding our dreams and interrogating the many facets of identity-our egos and our shadows, 'the dark side of our natures.'", 1964, 500);
+addBookToLibrary('Man and His Symbols', 'Carl G. Jung', "Man and His Symbols is a guide to understanding our dreams and interrogating the many facets of identity-our egos and our shadows, 'the dark side of our natures.'", 1964, 500, false);
 addBookToLibrary('Harry Potter', 'J.K. Rowling', "Harry Potter is a young wizard, the protagonist of J.K. Rowling's popular book series. He is described as having a thin face, knobbly knees, black, untidy hair, bright green eyes, and a lightning bolt-shaped scar on his forehead.", 1990, 365, true);
 addBookToLibrary('The Hunger Games', 'Suzanne Collins', "The Capitol, forces each of its twelve districts to send two tributes (a boy and a girl) to participate in a televised fight to the death, known as the Hunger Games.", 2001, 420, false);
 logBooks();
